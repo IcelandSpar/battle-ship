@@ -14,6 +14,14 @@ export class Gameboard {
       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
     ];
+
+    this.Carrier = new Ship(5);
+    this.BattleShip = new Ship(4);
+    this.Cruiser = new Ship(3);
+    this.Submarine = new Ship(3);
+    this.Destroyer = new Ship(2);
+    this.missedAttacks = [];
+    
   }
 
   logBoard() {
@@ -68,10 +76,11 @@ export class Gameboard {
         }
       }
     }
+    
   }
 
-  placeShip(x, y, shipLength, horizontal = true) {
-    let NewShip = new Ship(shipLength);
+  placeShip(x, y, NewShip, horizontal = true) {
+    
     // checkTest
     if (!this.checkIfEmpty(x, y, NewShip.shipLength, horizontal)) {
       this.checkOrientationAndPlace(x, y, NewShip.shipLength, horizontal);
@@ -84,8 +93,17 @@ export class Gameboard {
         }\nY: ${9 + 1 - y}`
       ); // should return calculated x and y coords
     }
+    
+  }
+
+  receiveAttack(x, y, obj) {
+    this.board[y][x] = 6;
+    obj.incrementHit()
+    obj.timesHit
   }
 }
+
+
 
 //   // default is horizontal,
 //   // --- horizontal = true,

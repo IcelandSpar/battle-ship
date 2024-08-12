@@ -59,7 +59,7 @@ describe('Gameboard Methods', () => {
     })
 
     test('Place horizontally on corner with appropriate ship size', () => {
-        NewBoard.placeShip(0, 0, 5)
+        NewBoard.placeShip(0, 0, NewBoard.Carrier, true)
         expect(NewBoard.board).toEqual([
             [1, 1, 1, 1, 1, 0, 0, 0, 0, 0],
             [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -85,7 +85,7 @@ describe('board test', () => {
     const NewBoard = new Gameboard();
     test('If there are not enough spaces from the starting cooridnate (x), flip to opposite side', () => {
         
-        NewBoard.placeShip(6, 0, 5)
+        NewBoard.placeShip(6, 0, NewBoard.Carrier)
         expect(NewBoard.board).toEqual([
             [0, 0, 1, 1, 1, 1, 1, 0, 0, 0],
             [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -101,7 +101,7 @@ describe('board test', () => {
     })
 
     test('If ship can be placed vertically', () => {
-        NewBoard.placeShip(0, 2, 5, false)
+        NewBoard.placeShip(0, 2, NewBoard.Carrier, false)
         expect(NewBoard.board).toEqual([
             [0, 0, 1, 1, 1, 1, 1, 0, 0, 0],
             [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -117,7 +117,7 @@ describe('board test', () => {
     })
 
     test('If ship can be placed on bottom right corner and display right size', () => {
-        NewBoard.placeShip(9, 9, 4, true)
+        NewBoard.placeShip(9, 9, NewBoard.BattleShip, true)
         expect(NewBoard.board).toEqual([
             [0, 0, 1, 1, 1, 1, 1, 0, 0, 0],
             [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -132,8 +132,55 @@ describe('board test', () => {
           ])
     })
 
+    test('If attack was received, send hit to right ship', () => {
+        NewBoard.receiveAttack(3, 0, NewBoard.Cruiser)
+        expect(NewBoard.Cruiser.timesHit).toBe(1)
+
+        
+        expect(NewBoard.board).toEqual([
+            [0, 0, 1, 6, 1, 1, 1, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [1, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [1, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [1, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [1, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [1, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 1, 1, 1, 1]
+          ])
+
+    })
+
+    
+
 })
 
+describe('Attack on ship', () => {
+    const NewBoard = new Gameboard()
+    NewBoard.receiveAttack(0, 0, NewBoard.Cruiser)
+    test('If correct ship was targeted', () => {
+        expect(NewBoard.Cruiser.timesHit).toEqual(1)
+        
+    })
 
+    test('If correct ship was targeted', () => {
+        expect(NewBoard.BattleShip.timesHit).toEqual(0)
+        
+    })
+
+
+    
+    test('If correct ship was targeted', () => {
+        expect(NewBoard.Submarine.timesHit).toEqual(0)
+        
+    })
+
+
+    test('If correct ship was targeted', () => {
+        expect(NewBoard.Destroyer.timesHit).toEqual(0)
+        
+    })
+})
 
 
