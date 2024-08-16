@@ -1,4 +1,5 @@
 import { Gameboard } from './gameboard.js'
+import './styles.css'
 
 const NewBoard = new Gameboard();
 NewBoard.placeShip(0, 0, NewBoard.Cruiser);

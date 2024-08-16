@@ -2,6 +2,7 @@
 
 import { Ship } from './ship.js';
 import { Gameboard } from './gameboard.js';
+import { Player } from './player.js';
 
 describe('Ship Methods', () => {
 
@@ -267,4 +268,47 @@ test('Gameboard displays number 6 for missed and hit shots', () => {
 })
 
     
+})
+
+describe('Test Player Classes', () => {
+    const HumanPlayer = new Player('Human');
+    const ComputerPlayer = new Player('Computer');
+
+    test('Human Player has their own type', () => {
+        expect(HumanPlayer.type).toBe('Human')
+    })
+
+    test('Human Player has own board', () => {
+        expect(HumanPlayer.gameboard.board).toEqual([
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+        ])
+    })
+
+    test('Computer Player shows correct type', () => {
+        expect(ComputerPlayer.type).toBe('Computer')
+    })
+
+        test('Computer Player has own board', () => {
+        expect(ComputerPlayer.gameboard.board).toEqual([
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+        ])
+    })
 })
