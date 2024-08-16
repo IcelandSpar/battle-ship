@@ -1,3 +1,97 @@
-.header {
-    color: blue;
+* {
+    box-sizing: border-box;
+    margin: 0 0;
+    
 }
+@font-face {
+    .press-start-2p-regular {
+        font-family: "Press Start 2P", system-ui;
+        font-weight: 400;
+        font-style: normal;
+      }
+
+
+
+.saira {
+  font-family: "Saira", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 100;
+  font-style: normal;
+  font-variation-settings: "100";
+}
+      
+}
+
+.game-header {
+    margin: 2rem auto;
+    text-align: center;
+    font-size: 3rem;
+    font-family: "Press Start 2P";
+}
+
+.page-content {
+    display: flex;
+    flex-direction: column;
+    margin: 0rem auto;
+    width: 95%;
+    height: 100%;
+    border: none;
+    
+}
+
+.buttons {
+    display: flex;
+    gap: 1rem;
+    align-self: center;
+    
+}
+
+.buttons button {
+    padding: 1rem 2rem;
+    margin: 1rem auto;
+    border-radius: 15px;
+    border: 1px;
+    cursor: pointer;
+    font-family: "Press Start 2P";
+}
+
+.grid-container {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+
+    margin: 2rem 0;
+    width: 100%;
+}
+
+.grid1, .grid2 {
+    display: grid;
+    grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+    
+
+    width: 35rem;
+    height: 35rem;
+    border: 1px solid black;
+    flex-grow: 0;
+    flex-shrink: 0;
+}
+
+/* .grid1 {
+
+    
+}
+
+.grid2 {
+
+} */
+
+/* .cell {
+    border: 1px solid black;
+    
+}
+.cell:hover {
+    background-color: red;
+    cursor: pointer;
+} */
+
