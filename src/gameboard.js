@@ -55,56 +55,49 @@ export class Gameboard {
 
   checkIfEmpty(x, y, ship, isHorizontal) {
     let spots = [];
-    for(let i = 0; i < ship.shipLength; i++) {
-      if(isHorizontal) {
-        if(x > 10 - ship.shipLength) {
-          spots.push(this.board[y][x - i])
-
+    for (let i = 0; i < ship.shipLength; i++) {
+      if (isHorizontal) {
+        if (x > 10 - ship.shipLength) {
+          spots.push(this.board[y][x - i]);
         } else {
-          spots.push(this.board[y][x + i])
-
+          spots.push(this.board[y][x + i]);
         }
       } else {
-          if(y > 10 - ship.shipLength) {
-            spots.push(this.board[y - i][x])
-
-          } else {
-            spots.push(this.board[y + i][x])
-
-          } 
+        if (y > 10 - ship.shipLength) {
+          spots.push(this.board[y - i][x]);
+        } else {
+          spots.push(this.board[y + i][x]);
+        }
       }
     }
-    return !spots.includes(1)
+    return !spots.includes(1);
   }
-
-
 
   checkOrientationAndPlace(x, y, ship, isHorizontal) {
     let spots = [];
-    for(let i = 0; i < ship.shipLength; i++) {
-      if(isHorizontal) {
-        if(x > 10 - ship.shipLength) {
-          spots.push(this.board[y][x - i])
-          this.recordShipLocations(ship, x - i, y)
-          this.board[y][x - i] = 1
+    for (let i = 0; i < ship.shipLength; i++) {
+      if (isHorizontal) {
+        if (x > 10 - ship.shipLength) {
+          spots.push(this.board[y][x - i]);
+          this.recordShipLocations(ship, x - i, y);
+          this.board[y][x - i] = 1;
         } else {
-          spots.push(this.board[y][x + i])
-          this.recordShipLocations(ship, x + i, y)
-          this.board[y][x + i] = 1
+          spots.push(this.board[y][x + i]);
+          this.recordShipLocations(ship, x + i, y);
+          this.board[y][x + i] = 1;
         }
       } else {
-          if(y > 10 - ship.shipLength) {
-            spots.push(this.board[y - i][x])
-            this.recordShipLocations(ship, x, y - i)
-            this.board[y - i][x] = 1;
-          } else {
-            spots.push(this.board[y + i][x])
-            this.recordShipLocations(ship, x, y + i)
-            this.board[y + i][x] = 1;
-          } 
+        if (y > 10 - ship.shipLength) {
+          spots.push(this.board[y - i][x]);
+          this.recordShipLocations(ship, x, y - i);
+          this.board[y - i][x] = 1;
+        } else {
+          spots.push(this.board[y + i][x]);
+          this.recordShipLocations(ship, x, y + i);
+          this.board[y + i][x] = 1;
+        }
       }
     }
-
   }
 
   recordShipLocations(NewShip, x, y) {
@@ -115,7 +108,7 @@ export class Gameboard {
     // checkTest
     if (this.checkIfEmpty(x, y, ship, isHorizontal)) {
       this.checkOrientationAndPlace(x, y, ship, isHorizontal);
-      
+
       // if spot taken, advise to try again
     } else {
       return console.log(
@@ -124,7 +117,6 @@ export class Gameboard {
         }\nY: ${9 + 1 - y}`
       ); // should return calculated x and y coords
     }
-    
   }
 
   receiveAttack(x, y) {
@@ -179,7 +171,6 @@ export class Gameboard {
   }
 
   addShipToRandomLocation() {
-
     let ships = [
       this.Carrier,
       this.BattleShip,
@@ -191,23 +182,22 @@ export class Gameboard {
     let shipsPlaced = 0;
     let i = 0;
 
-      while(shipsPlaced < 5) {
-        let xCoord = Math.floor(Math.random() * 10);
-        let yCoord = Math.floor(Math.random() * 10);
-        let horizOrVert = Math.floor(Math.random() * 2);
-      
-        if(horizOrVert == 1) {
-          horizOrVert = true
-        } else {
-          horizOrVert = false
-        }
+    while (shipsPlaced < 5) {
+      let xCoord = Math.floor(Math.random() * 10);
+      let yCoord = Math.floor(Math.random() * 10);
+      let horizOrVert = Math.floor(Math.random() * 2);
 
-        if(this.checkIfEmpty(xCoord, yCoord, ships[i], horizOrVert)) {
-          this.placeShip(xCoord, yCoord, ships[i], horizOrVert)
-          i++
-          shipsPlaced++
-        }
-        
+      if (horizOrVert == 1) {
+        horizOrVert = true;
+      } else {
+        horizOrVert = false;
       }
- }
+
+      if (this.checkIfEmpty(xCoord, yCoord, ships[i], horizOrVert)) {
+        this.placeShip(xCoord, yCoord, ships[i], horizOrVert);
+        i++;
+        shipsPlaced++;
+      }
+    }
+  }
 }

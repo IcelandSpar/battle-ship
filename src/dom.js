@@ -1,4 +1,5 @@
 import { Game } from './game-logic'
+import { Gameboard } from './gameboard.js'
 
 const GridDomRef = {
     humanGrid: document.querySelector('.grid1'),
@@ -6,7 +7,6 @@ const GridDomRef = {
     message: document.querySelector('.message'),
 
 }
-
 export function populateBoard(board) {
     GridDomRef.humanGrid.textContent = '';
     for(let i = 0; i < board.length; i++) {
@@ -20,6 +20,7 @@ export function populateBoard(board) {
             cellRow.appendChild(cell)
         }
     }
+
 }
 
 export function populateComputerBoard(board) {
