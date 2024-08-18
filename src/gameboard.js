@@ -27,70 +27,95 @@ export class Gameboard {
     console.log(this.board);
   }
 
-  checkIfEmpty(x, y, shipLength, horizOrVert) {
-    let searchSectionArr = [];
-    if (horizOrVert == true) {
-      if (x <= 10 - shipLength) {
-        for (let i = 0; i < shipLength; i++) {
-          searchSectionArr.push(this.board[y][x + i]);
+  // checkIfEmpty(x, y, shipLength, horizOrVert) {
+  //   let searchSectionArr = [];
+  //   if (horizOrVert == true) {
+  //     if (x <= 10 - shipLength) {
+  //       for (let i = 0; i < shipLength; i++) {
+  //         searchSectionArr.push(this.board[y][x + i]);
+  //       }
+  //     } else if (x >= 10 - shipLength) {
+  //       for (let j = 0; j < shipLength; j++) {
+  //         searchSectionArr.push(this.board[y][x - j]);
+  //       }
+  //     }
+  //   } else {
+  //     if (y <= 10 - shipLength) {
+  //       for (let i = 0; i < shipLength; i++) {
+  //         searchSectionArr.push(this.board[y + i][x]);
+  //       }
+  //     } else if (y >= 10 - shipLength) {
+  //       for (let j = 0; j < shipLength; j++) {
+  //         searchSectionArr.push(this.board[y - j][x]);
+  //       }
+  //     }
+  //   }
+  //   return searchSectionArr.includes(1);
+  // }
+
+  checkIfEmpty(x, y, ship, isHorizontal) {
+    let spots = [];
+    for(let i = 0; i < ship.shipLength; i++) {
+      if(isHorizontal) {
+        if(x > 10 - ship.shipLength) {
+          spots.push(this.board[y][x - i])
+
+        } else {
+          spots.push(this.board[y][x + i])
+
         }
-      } else if (x >= 10 - shipLength) {
-        for (let j = 0; j < shipLength; j++) {
-          searchSectionArr.push(this.board[y][x - j]);
-        }
-      }
-    } else {
-      if (y <= 10 - shipLength) {
-        for (let i = 0; i < shipLength; i++) {
-          searchSectionArr.push(this.board[y + i][x]);
-        }
-      } else if (y >= 10 - shipLength) {
-        for (let j = 0; j < shipLength; j++) {
-          searchSectionArr.push(this.board[y - j][x]);
-        }
+      } else {
+          if(y > 10 - ship.shipLength) {
+            spots.push(this.board[y - i][x])
+
+          } else {
+            spots.push(this.board[y + i][x])
+
+          } 
       }
     }
-    return searchSectionArr.includes(1);
+    return !spots.includes(1)
   }
 
-  // Now records ship locations when placed
-  checkOrientationAndPlace(x, y, NewShip, horizontal) {
-    if (horizontal == true) {
-      if (x <= 10 - NewShip.shipLength) {
-        for (let i = 0; i < NewShip.shipLength; i++) {
-          this.board[y][x + i] = 1;
-          this.recordShipLocations(NewShip, x + i, y);
+
+
+  checkOrientationAndPlace(x, y, ship, isHorizontal) {
+    let spots = [];
+    for(let i = 0; i < ship.shipLength; i++) {
+      if(isHorizontal) {
+        if(x > 10 - ship.shipLength) {
+          spots.push(this.board[y][x - i])
+          this.recordShipLocations(ship, x - i, y)
+          this.board[y][x - i] = 1
+        } else {
+          spots.push(this.board[y][x + i])
+          this.recordShipLocations(ship, x + i, y)
+          this.board[y][x + i] = 1
         }
-      } else if (x >= 10 - NewShip.shipLength) {
-        for (let j = 0; j < NewShip.shipLength; j++) {
-          this.board[y][x - j] = 1;
-          this.recordShipLocations(NewShip, x - j, y);
-        }
-      }
-    } else {
-      if (y <= 10 - NewShip.shipLength) {
-        for (let i = 0; i < NewShip.shipLength; i++) {
-          this.board[y + i][x] = 1;
-          this.recordShipLocations(NewShip, x, y + i);
-        }
-      } else if (y >= 10 - NewShip.shipLength) {
-        for (let j = 0; j < NewShip.shipLength; j++) {
-          this.board[y - j][x] = 1;
-          this.recordShipLocations(NewShip, x, y - j);
-        }
+      } else {
+          if(y > 10 - ship.shipLength) {
+            spots.push(this.board[y - i][x])
+            this.recordShipLocations(ship, x, y - i)
+            this.board[y - i][x] = 1;
+          } else {
+            spots.push(this.board[y + i][x])
+            this.recordShipLocations(ship, x, y + i)
+            this.board[y + i][x] = 1;
+          } 
       }
     }
+
   }
 
   recordShipLocations(NewShip, x, y) {
     NewShip.shipLocation.push([x, y]);
   }
 
-  placeShip(x, y, NewShip, horizontal = true) {
+  placeShip(x, y, ship, isHorizontal = true) {
     // checkTest
-    if (!this.checkIfEmpty(x, y, NewShip.shipLength, horizontal)) {
-      this.checkOrientationAndPlace(x, y, NewShip, horizontal);
-
+    if (this.checkIfEmpty(x, y, ship, isHorizontal)) {
+      this.checkOrientationAndPlace(x, y, ship, isHorizontal);
+      
       // if spot taken, advise to try again
     } else {
       return console.log(
@@ -99,6 +124,7 @@ export class Gameboard {
         }\nY: ${9 + 1 - y}`
       ); // should return calculated x and y coords
     }
+    
   }
 
   receiveAttack(x, y) {
@@ -151,4 +177,37 @@ export class Gameboard {
       this.Destroyer.hasBeenSunk
     );
   }
+
+  addShipToRandomLocation() {
+
+    let ships = [
+      this.Carrier,
+      this.BattleShip,
+      this.Cruiser,
+      this.Submarine,
+      this.Destroyer,
+    ];
+
+    let shipsPlaced = 0;
+    let i = 0;
+
+      while(shipsPlaced < 5) {
+        let xCoord = Math.floor(Math.random() * 10);
+        let yCoord = Math.floor(Math.random() * 10);
+        let horizOrVert = Math.floor(Math.random() * 2);
+      
+        if(horizOrVert == 1) {
+          horizOrVert = true
+        } else {
+          horizOrVert = false
+        }
+
+        if(this.checkIfEmpty(xCoord, yCoord, ships[i], horizOrVert)) {
+          this.placeShip(xCoord, yCoord, ships[i], horizOrVert)
+          i++
+          shipsPlaced++
+        }
+        
+      }
+ }
 }

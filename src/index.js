@@ -1,6 +1,7 @@
 import { Gameboard } from './gameboard.js'
 import './styles.css'
 import { makeGrids } from './dom.js'
+import { Game, startGame } from './game-logic.js'
 
 // const NewBoard = new Gameboard();
 // NewBoard.placeShip(0, 0, NewBoard.Cruiser);
@@ -12,4 +13,13 @@ import { makeGrids } from './dom.js'
 // console.log(NewBoard.missedAttacks)
 // console.table(NewBoard.board)
 
-makeGrids()
+// makeGrids()
+startGame()
+
+
+// newBoard.placeShip(0, 0, newBoard.Carrier, true)
+// newBoard.placeShip(0, 0, newBoard.Carrier, false)
+
+
+
+
