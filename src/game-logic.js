@@ -34,6 +34,25 @@ export class Game {
       }
     });
 
+    // let computerShips = [
+    //   this.Computer.gameboard.Carrier,
+    //   this.Computer.gameboard.BattleShip,
+    //   this.Computer.gameboard.Cruiser,
+    //   this.Computer.gameboard.Destroyer,
+    //   this.Computer.gameboard.Submarine,
+    // ];
+    // computerShips.forEach((ship) => {
+    //   for (let i = 0; i < ship.shipLocation.length; i++) {
+    //     document
+    //       .querySelector(
+    //         `.computer-cell${ship.shipLocation[i][1]}${ship.shipLocation[i][0]}`
+    //       )
+    //       .classList.add(ship.shipName.toLowerCase());
+    //   }
+    // });
+  }
+
+  displayHitAttacks() {
     let computerShips = [
       this.Computer.gameboard.Carrier,
       this.Computer.gameboard.BattleShip,
@@ -41,28 +60,59 @@ export class Game {
       this.Computer.gameboard.Destroyer,
       this.Computer.gameboard.Submarine,
     ];
+
     computerShips.forEach((ship) => {
-      for (let i = 0; i < ship.shipLocation.length; i++) {
+      for (let i = 0; i < ship.shipHitLocation.length; i++) {
+        console.log(ship.shipHitLocation[i][0], ship.shipHitLocation[i][1]);
         document
           .querySelector(
-            `.computer-cell${ship.shipLocation[i][1]}${ship.shipLocation[i][0]}`
+            `.computer-cell${ship.shipHitLocation[i][1]}${ship.shipHitLocation[i][0]}`
           )
-          .classList.add(ship.shipName.toLowerCase());
+          .classList.add("attack");
       }
     });
-  }
 
-  startGame() {}
+    let ships = [
+      this.Human.gameboard.Carrier,
+      this.Human.gameboard.BattleShip,
+      this.Human.gameboard.Cruiser,
+      this.Human.gameboard.Destroyer,
+      this.Human.gameboard.Submarine,
+    ];
+
+    ships.forEach((ship) => {
+      for (let j = 0; j < ship.shipHitLocation.length; j++) {
+        console.log(ship.shipHitLocation[j][0], ship.shipHitLocation[j][1]);
+        document
+          .querySelector(
+            `.cell${ship.shipHitLocation[j][1]}${ship.shipHitLocation[j][0]}`
+          )
+          .classList.add("attack");
+      }
+    });
+
+    this.Computer.gameboard.missedAttacks.forEach((item) => {
+      document
+        .querySelector(`.computer-cell${item[1]}${item[0]}`)
+        .classList.add("missed-attack");
+    });
+
+    this.Human.gameboard.missedAttacks.forEach((item) => {
+      document
+        .querySelector(`.cell${item[1]}${item[0]}`)
+        .classList.add("missed-attack");
+    });
+  }
 }
 
 export function startGame() {
   const NewGame = new Game();
   NewGame.displayBoards();
 
-  NewGame.Human.gameboard.addShipToRandomLocation();
   NewGame.Computer.gameboard.addShipToRandomLocation();
 
   NewGame.displayBoards();
+  return NewGame;
 }
 
 async function addShip(GameObj, ship) {

@@ -16,7 +16,7 @@ export function populateBoard(board) {
         for(let j = 0; j < board[i].length; j++) {
             let cell = document.createElement('div');
             cell.classList.add(`cell${i}${j}`, 'cell')
-            cell.textContent = board[i][j]
+            // cell.textContent = board[i][j]
             cellRow.appendChild(cell)
         }
     }
@@ -32,7 +32,7 @@ export function populateComputerBoard(board) {
         for(let j = 0; j < board[i].length; j++) {
             let cell = document.createElement('div');
             cell.classList.add(`computer-cell${i}${j}`, 'cell')
-            cell.textContent = board[i][j];
+            // cell.textContent = board[i][j];
             // addButtonsToCells(cell)
             cellRow.appendChild(cell)
             
@@ -40,27 +40,6 @@ export function populateComputerBoard(board) {
     }
 }
 
-
-
-// function addButtonsToCells(cell, x, y) { // , x, y, board // add this later
-
-//     cell.addEventListener('click', () => {
-        
-//         cell.style.cssText = 'background-color: green;'
-//         console.log(x, y)
-
-//     })
-//     // cell.addEventListener('mouseover', () => {
-//     //     cell.style.cssText = 'background-color: red;'
-        
-//     // })
-
-//     // cell.addEventListener('mouseleave', () => {
-//     //      cell.style.cssText = 'background-color: white;'
-        
-//     // })
-   
-// }
 
 export function changeMessage(messageText) {
     GridDomRef.message.textContent = messageText;

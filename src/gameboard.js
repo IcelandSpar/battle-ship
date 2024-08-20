@@ -27,32 +27,6 @@ export class Gameboard {
     console.log(this.board);
   }
 
-  // checkIfEmpty(x, y, shipLength, horizOrVert) {
-  //   let searchSectionArr = [];
-  //   if (horizOrVert == true) {
-  //     if (x <= 10 - shipLength) {
-  //       for (let i = 0; i < shipLength; i++) {
-  //         searchSectionArr.push(this.board[y][x + i]);
-  //       }
-  //     } else if (x >= 10 - shipLength) {
-  //       for (let j = 0; j < shipLength; j++) {
-  //         searchSectionArr.push(this.board[y][x - j]);
-  //       }
-  //     }
-  //   } else {
-  //     if (y <= 10 - shipLength) {
-  //       for (let i = 0; i < shipLength; i++) {
-  //         searchSectionArr.push(this.board[y + i][x]);
-  //       }
-  //     } else if (y >= 10 - shipLength) {
-  //       for (let j = 0; j < shipLength; j++) {
-  //         searchSectionArr.push(this.board[y - j][x]);
-  //       }
-  //     }
-  //   }
-  //   return searchSectionArr.includes(1);
-  // }
-
   checkIfEmpty(x, y, ship, isHorizontal) {
     let spots = [];
     for (let i = 0; i < ship.shipLength; i++) {
@@ -178,6 +152,24 @@ export class Gameboard {
       this.Submarine,
       this.Destroyer,
     ];
+    this.board = [
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    ];
+
+    this.Carrier.shipLocation = []
+    this.BattleShip.shipLocation = []
+    this.Cruiser.shipLocation = []
+    this.Submarine.shipLocation = []
+    this.Destroyer.shipLocation = []
 
     let shipsPlaced = 0;
     let i = 0;

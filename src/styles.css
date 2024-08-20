@@ -179,3 +179,11 @@
 .carrier {
     background-color: blue;
 }
+
+.attack {
+    background-color: red;
+}
+
+.missed-attack {
+    background-color: darkslategrey;
+}
