@@ -34,22 +34,26 @@ export class Game {
       }
     });
 
-    // let computerShips = [
-    //   this.Computer.gameboard.Carrier,
-    //   this.Computer.gameboard.BattleShip,
-    //   this.Computer.gameboard.Cruiser,
-    //   this.Computer.gameboard.Destroyer,
-    //   this.Computer.gameboard.Submarine,
-    // ];
-    // computerShips.forEach((ship) => {
-    //   for (let i = 0; i < ship.shipLocation.length; i++) {
-    //     document
-    //       .querySelector(
-    //         `.computer-cell${ship.shipLocation[i][1]}${ship.shipLocation[i][0]}`
-    //       )
-    //       .classList.add(ship.shipName.toLowerCase());
-    //   }
-    // });
+
+  }
+
+  displayComputerShips() {
+    let computerShips = [
+      this.Computer.gameboard.Carrier,
+      this.Computer.gameboard.BattleShip,
+      this.Computer.gameboard.Cruiser,
+      this.Computer.gameboard.Destroyer,
+      this.Computer.gameboard.Submarine,
+    ];
+    computerShips.forEach((ship) => {
+      for (let i = 0; i < ship.shipLocation.length; i++) {
+        document
+          .querySelector(
+            `.computer-cell${ship.shipLocation[i][1]}${ship.shipLocation[i][0]}`
+          )
+          .classList.add(ship.shipName.toLowerCase());
+      }
+    });
   }
 
   displayHitAttacks() {
@@ -63,7 +67,7 @@ export class Game {
 
     computerShips.forEach((ship) => {
       for (let i = 0; i < ship.shipHitLocation.length; i++) {
-        console.log(ship.shipHitLocation[i][0], ship.shipHitLocation[i][1]);
+        
         document
           .querySelector(
             `.computer-cell${ship.shipHitLocation[i][1]}${ship.shipHitLocation[i][0]}`
@@ -82,7 +86,7 @@ export class Game {
 
     ships.forEach((ship) => {
       for (let j = 0; j < ship.shipHitLocation.length; j++) {
-        console.log(ship.shipHitLocation[j][0], ship.shipHitLocation[j][1]);
+        
         document
           .querySelector(
             `.cell${ship.shipHitLocation[j][1]}${ship.shipHitLocation[j][0]}`
@@ -103,6 +107,28 @@ export class Game {
         .classList.add("missed-attack");
     });
   }
+
+  
+
+  returnSunkShip() {
+    let computerShips = [
+      this.Computer.gameboard.Carrier,
+      this.Computer.gameboard.BattleShip,
+      this.Computer.gameboard.Cruiser,
+      this.Computer.gameboard.Destroyer,
+      this.Computer.gameboard.Submarine,
+    ];
+    let sunkShip = '';
+    computerShips.forEach((ship) => {
+      if(ship.hasBeenSunk) {
+        sunkShip = ship.shipName
+        computerShips.splice(computerShips.indexOf(ship), 1)
+      }
+    })
+    return sunkShip
+  }
+
+
 }
 
 export function startGame() {
@@ -115,16 +141,16 @@ export function startGame() {
   return NewGame;
 }
 
-async function addShip(GameObj, ship) {
-  for (let i = 0; i < 10; i++) {
-    for (let k = 0; k < 10; k++) {
-      document.querySelector(`.cell${k}${i}`).addEventListener("click", () => {
-        GameObj.Human.gameboard.placeShip(i, k, ship, GameObj.horizontal);
-        GameObj.displayBoards();
-      });
-    }
-  }
-}
+// async function addShip(GameObj, ship) {
+//   for (let i = 0; i < 10; i++) {
+//     for (let k = 0; k < 10; k++) {
+//       document.querySelector(`.cell${k}${i}`).addEventListener("click", () => {
+//         GameObj.Human.gameboard.placeShip(i, k, ship, GameObj.horizontal);
+//         GameObj.displayBoards();
+//       });
+//     }
+//   }
+// }
 
 const flipButton = document.querySelector(".turn");
 const shipOptionsContainer = document.querySelector(".ship-options-container");

@@ -3,17 +3,6 @@ import './styles.css'
 import {  populateBoard, changeMessage } from './dom.js'
 import { Game, startGame } from './game-logic.js'
 
-// const NewBoard = new Gameboard();
-// NewBoard.placeShip(0, 0, NewBoard.Cruiser);
-// NewBoard.placeShip(9, 9, NewBoard.Destroyer);
-// NewBoard.receiveAttack(0, 0);
-// NewBoard.receiveAttack(0, 0);
-// NewBoard.receiveAttack(5, 5);
-// NewBoard.receiveAttack(6, 5);
-// console.log(NewBoard.missedAttacks)
-// console.table(NewBoard.board)
-
-// makeGrids()
 
 const NewGame = new Game();
 NewGame.displayBoards()
@@ -51,21 +40,28 @@ startGameBtn.addEventListener('click', () => {
         let x = 0;
         let y = 0;
         if(e.target.matches('.cell')) {
-            console.log(e.target.classList[0])
+           
             
             x = e.target.classList[0][14]
             y = e.target.classList[0][13]
-            console.log(x, y)
+            
     
             NewGame.Computer.gameboard.receiveAttack(x, y)
             document.querySelector(`.computer-cell${y}${x}`).classList.add = 'attack'
-            console.log(NewGame.Computer.gameboard.checkIfAllSunk())
+            
             NewGame.displayBoards()
             
-            NewGame.Human.gameboard.receiveAttack(Math.floor(Math.random() * 9), Math.floor(Math.random() * 9))
+            NewGame.Human.gameboard.receiveAttack(Math.floor(Math.random() * 10), Math.floor(Math.random() * 10))
             NewGame.displayHitAttacks()
+              
             if(NewGame.Computer.gameboard.checkIfAllSunk()) {
                 changeMessage('All enemy ships are sunk !')
+                NewGame.displayComputerShips()
+            }
+
+            if(NewGame.Human.gameboard.checkIfAllSunk()) {
+                changeMessage('All of your ships are sunk !\nGame Over!')
+                NewGame.displayComputerShips()
             }
         }
         
@@ -75,10 +71,6 @@ startGameBtn.addEventListener('click', () => {
 })
 
 
-
-
-// newBoard.placeShip(0, 0, newBoard.Carrier, true)
-// newBoard.placeShip(0, 0, newBoard.Carrier, false)
 
 
 
