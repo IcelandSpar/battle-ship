@@ -6,6 +6,41 @@ import { Game, startGame } from './game-logic.js'
 
 const NewGame = new Game();
 NewGame.displayBoards()
+let horizontal = false;
+
+const htmlShips = Array.from(document.querySelector('.ship-options-container').children);
+htmlShips.forEach(optionShip => optionShip.addEventListener('dragstart', dragStart));
+
+let draggedShip = '';
+
+function dragStart(x) {
+    draggedShip = x.target.classList[0]
+    console.log(draggedShip)
+    const allPlayerCells = document.querySelectorAll('.grid1 .cell-rows .cell');
+allPlayerCells.forEach(playerCell =>  {
+    playerCell.addEventListener('drop', dropShip);
+    playerCell.addEventListener('dragover', dragOver);
+    
+})
+}
+
+function dragOver(e) {
+    e.preventDefault();
+}
+
+function dropShip(e) {
+    let targetId = e.target;
+    console.log(targetId)
+    
+    let capitalString = draggedShip[0].toUpperCase() + draggedShip.slice(1);
+    if(capitalString == 'Battleship')  {
+        capitalString = 'BattleShip'
+    }
+    NewGame.Human.gameboard.placeShip(parseInt(targetId.classList[0][5]) , parseInt(targetId.classList[0][4]), NewGame.Human.gameboard[capitalString], horizontal)
+    NewGame.displayBoards();
+    console.log(NewGame.Human.gameboard.board)
+    document.querySelector(`.${draggedShip}-preview`).remove();
+}
 
 
 
@@ -26,9 +61,18 @@ randomPlaceBtn.addEventListener('click', () => {
 
 const startGameBtn = document.querySelector('.start-game')
 const turn = document.querySelector('.turn')
+turn.addEventListener('click', () => {
+    if (horizontal == true) {
+        horizontal = false
+    } else {
+        horizontal = true;
+    }
+})
+
 startGameBtn.addEventListener('click', () => {
     NewGame.Computer.gameboard.addShipToRandomLocation();
     changeMessage('GameStarted ! Your turn !')
+    
     randomPlaceBtn.remove()
     startGameBtn.remove()
     turn.remove()
@@ -55,12 +99,12 @@ startGameBtn.addEventListener('click', () => {
             NewGame.displayHitAttacks()
               
             if(NewGame.Computer.gameboard.checkIfAllSunk()) {
-                changeMessage('All enemy ships are sunk !')
+                changeMessage('All enemy ships are sunk !\nYou Won !')
                 NewGame.displayComputerShips()
             }
 
             if(NewGame.Human.gameboard.checkIfAllSunk()) {
-                changeMessage('All of your ships are sunk !\nGame Over!')
+                changeMessage('All of your ships are sunk !\nGame Over !')
                 NewGame.displayComputerShips()
             }
         }

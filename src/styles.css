@@ -137,6 +137,11 @@ body {
     width: 40px;
     height: 80px;
     margin: 3px;
+
+    cursor: move; /* fallback if grab cursor is unsupported */
+    cursor: grab;
+    cursor: -moz-grab;
+    cursor: -webkit-grab;
 }
 
 
@@ -152,6 +157,11 @@ body {
     width: 40px;
     height: 120px;
     margin: 3px;
+
+    cursor: move; /* fallback if grab cursor is unsupported */
+    cursor: grab;
+    cursor: -moz-grab;
+    cursor: -webkit-grab;
 }
 
 .submarine {
@@ -166,6 +176,11 @@ body {
     width: 40px;
     height: 120px;
     margin: 3px;
+
+    cursor: move; /* fallback if grab cursor is unsupported */
+    cursor: grab;
+    cursor: -moz-grab;
+    cursor: -webkit-grab;
 }
 
 .cruiser {
@@ -180,6 +195,11 @@ body {
     width: 40px;
     height: 160px;
     margin: 3px;
+
+    cursor: move; /* fallback if grab cursor is unsupported */
+    cursor: grab;
+    cursor: -moz-grab;
+    cursor: -webkit-grab;
 }
 
 .battleship {
@@ -194,6 +214,11 @@ body {
     width: 40px;
     height: 200px;
     margin: 3px;
+
+    cursor: move; /* fallback if grab cursor is unsupported */
+    cursor: grab;
+    cursor: -moz-grab;
+    cursor: -webkit-grab;
 }
 .carrier {
     background-color: blue;
