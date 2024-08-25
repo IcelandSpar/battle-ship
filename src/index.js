@@ -7,6 +7,7 @@ import { Game, startGame } from './game-logic.js'
 const NewGame = new Game();
 NewGame.displayBoards()
 let horizontal = false;
+let gameEnded = false;
 
 const htmlShips = Array.from(document.querySelector('.ship-options-container').children);
 htmlShips.forEach(optionShip => optionShip.addEventListener('dragstart', dragStart));
@@ -79,6 +80,7 @@ startGameBtn.addEventListener('click', () => {
     document.querySelector('.ship-options-container').remove()
     NewGame.displayBoards()
 
+
     document.addEventListener('click', e => {
     
         let x = 0;
@@ -89,23 +91,38 @@ startGameBtn.addEventListener('click', () => {
             x = e.target.classList[0][14]
             y = e.target.classList[0][13]
             
-    
+            if(gameEnded == false) {
             NewGame.Computer.gameboard.receiveAttack(x, y)
             document.querySelector(`.computer-cell${y}${x}`).classList.add = 'attack'
+            }
+
             
             NewGame.displayBoards()
+            let computerAttackXCoord = Math.floor(Math.random() * 10);
+            let computerAttackYCoord = Math.floor(Math.random() * 10);
+            while(NewGame.Human.gameboard.board[computerAttackYCoord][computerAttackXCoord] == 6 && gameEnded == false) {
+                computerAttackXCoord = Math.floor(Math.random() * 10);
+                computerAttackYCoord = Math.floor(Math.random() * 10);
+                
+            }
+            if(gameEnded == false) {
+                NewGame.Human.gameboard.receiveAttack(computerAttackXCoord, computerAttackYCoord)
+            }
             
-            NewGame.Human.gameboard.receiveAttack(Math.floor(Math.random() * 10), Math.floor(Math.random() * 10))
             NewGame.displayHitAttacks()
               
             if(NewGame.Computer.gameboard.checkIfAllSunk()) {
                 changeMessage('All enemy ships are sunk !\nYou Won !')
                 NewGame.displayComputerShips()
+                gameEnded = true;
+                
             }
 
             if(NewGame.Human.gameboard.checkIfAllSunk()) {
                 changeMessage('All of your ships are sunk !\nGame Over !')
                 NewGame.displayComputerShips()
+                gameEnded = true;
+                
             }
         }
         
