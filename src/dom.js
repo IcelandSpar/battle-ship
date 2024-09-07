@@ -42,7 +42,11 @@ export function populateComputerBoard(board) {
 
 
 export function changeMessage(messageText) {
+    
     GridDomRef.message.textContent = messageText;
+    GridDomRef.message.classList.add('message-anim')
+    setTimeout(() => GridDomRef.message.classList.remove('message-anim'), 6000)
+    
 }
 
 

@@ -3,11 +3,18 @@ import './styles.css'
 import {  populateBoard, changeMessage } from './dom.js'
 import { Game, startGame } from './game-logic.js'
 
+function startNewGameInfo() {
+    const NewGame = new Game();
+    NewGame.displayBoards()
+    let horizontal = false;
+    let gameEnded = false;
+    changeMessage('Place Your Ships!')
+    Array.from(document.querySelector('.ship-options-container').children).forEach(child => {
+        child.style.transform = 'rotate(0deg)'
+    })
 
-const NewGame = new Game();
-NewGame.displayBoards()
-let horizontal = false;
-let gameEnded = false;
+
+
 
 const htmlShips = Array.from(document.querySelector('.ship-options-container').children);
 htmlShips.forEach(optionShip => optionShip.addEventListener('dragstart', dragStart));
@@ -21,7 +28,6 @@ function dragStart(x) {
 allPlayerCells.forEach(playerCell =>  {
     playerCell.addEventListener('drop', dropShip);
     playerCell.addEventListener('dragover', dragOver);
-    
 })
 }
 
@@ -40,7 +46,7 @@ function dropShip(e) {
     NewGame.Human.gameboard.placeShip(parseInt(targetId.classList[0][5]) , parseInt(targetId.classList[0][4]), NewGame.Human.gameboard[capitalString], horizontal)
     NewGame.displayBoards();
     console.log(NewGame.Human.gameboard.board)
-    document.querySelector(`.${draggedShip}-preview`).remove();
+    document.querySelector(`.${draggedShip}-preview`).style.display = 'none';
 }
 
 
@@ -51,11 +57,11 @@ randomPlaceBtn.addEventListener('click', () => {
     NewGame.Human.gameboard.addShipToRandomLocation();
     NewGame.displayBoards();
     if(document.querySelector('.battleship-preview')) {
-        document.querySelector('.battleship-preview').classList.remove('battleship-preview')
-        document.querySelector('.carrier-preview').classList.remove('carrier-preview')
-        document.querySelector('.submarine-preview').classList.remove('submarine-preview')
-        document.querySelector('.destroyer-preview').classList.remove('destroyer-preview')
-        document.querySelector('.cruiser-preview').classList.remove('cruiser-preview')
+        document.querySelector('.battleship-preview').style.display = 'none';
+        document.querySelector('.carrier-preview').style.display = 'none';
+        document.querySelector('.submarine-preview').style.display = 'none';
+        document.querySelector('.destroyer-preview').style.display = 'none';
+        document.querySelector('.cruiser-preview').style.display = 'none';
     }
 
 })
@@ -72,12 +78,12 @@ turn.addEventListener('click', () => {
 
 startGameBtn.addEventListener('click', () => {
     NewGame.Computer.gameboard.addShipToRandomLocation();
-    changeMessage('GameStarted ! Your turn !')
+    changeMessage('Game Started! Attack!')
     
-    randomPlaceBtn.remove()
-    startGameBtn.remove()
-    turn.remove()
-    document.querySelector('.ship-options-container').remove()
+    randomPlaceBtn.style.display = 'none';
+    startGameBtn.style.display = 'none';
+    turn.style.display = 'none';
+    document.querySelector('.ship-options-container').style.display = 'none';
     NewGame.displayBoards()
 
 
@@ -85,7 +91,7 @@ startGameBtn.addEventListener('click', () => {
     
         let x = 0;
         let y = 0;
-        if(e.target.matches('.cell')) {
+        if(e.target.matches('.cell') && !gameEnded) {
            
             
             x = e.target.classList[0][14]
@@ -115,13 +121,212 @@ startGameBtn.addEventListener('click', () => {
                 changeMessage('All enemy ships are sunk !\nYou Won !')
                 NewGame.displayComputerShips()
                 gameEnded = true;
-                
+
+                let restartBtn = document.createElement('button');
+                restartBtn.textContent = "Restart Game";
+                document.querySelector('.buttons').appendChild(restartBtn)
+
+                restartBtn.addEventListener('click', ()=> {
+                    
+                    randomPlaceBtn.style.display = 'block';
+                    startGameBtn.style.display = 'block';
+                    turn.style.display = 'block';
+                    document.querySelector('.ship-options-container').style.display = 'flex';
+                    
+                    NewGame.Human.gameboard.board = [
+                        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                      ];
+
+                      NewGame.Computer.gameboard.board = [
+                        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                      ];
+                      console.log(NewGame.Human.gameboard.board, NewGame.Computer.gameboard.board)
+                      restartBtn.remove()
+                      document.querySelector('.battleship-preview').style.display = 'flex';
+                      document.querySelector('.carrier-preview').style.display = 'flex';
+                      document.querySelector('.submarine-preview').style.display = 'flex';
+                      document.querySelector('.destroyer-preview').style.display = 'flex';
+                      document.querySelector('.cruiser-preview').style.display = 'flex';
+                      NewGame.Human.gameboard.Carrier.hasBeenSunk = false;
+                      NewGame.Human.gameboard.Carrier.timesHit = 0;
+                      NewGame.Human.gameboard.Carrier.shipLocation = [];
+                      NewGame.Human.gameboard.Carrier.shipHitLocation = [];
+                      
+                      NewGame.Human.gameboard.BattleShip.hasBeenSunk = false;
+                      NewGame.Human.gameboard.BattleShip.timesHit = 0;
+                      NewGame.Human.gameboard.BattleShip.shipLocation = [];
+                      NewGame.Human.gameboard.BattleShip.shipHitLocation = [];
+
+                      NewGame.Human.gameboard.Cruiser.hasBeenSunk = false;
+                      NewGame.Human.gameboard.Cruiser.timesHit = 0;
+                      NewGame.Human.gameboard.Cruiser.shipLocation = [];
+                      NewGame.Human.gameboard.Cruiser.shipHitLocation = [];
+
+                      NewGame.Human.gameboard.Submarine.hasBeenSunk = false;
+                      NewGame.Human.gameboard.Submarine.timesHit = 0;
+                      NewGame.Human.gameboard.Submarine.shipLocation = [];
+                      NewGame.Human.gameboard.Submarine.shipHitLocation = [];
+
+                      NewGame.Human.gameboard.Destroyer.hasBeenSunk = false;
+                      NewGame.Human.gameboard.Destroyer.timesHit = 0;
+                      NewGame.Human.gameboard.Destroyer.shipLocation = [];
+                      NewGame.Human.gameboard.Destroyer.shipHitLocation = [];
+
+                      NewGame.Human.gameboard.missedAttacks = [];
+
+                      NewGame.Computer.gameboard.Carrier.hasBeenSunk = false;
+                      NewGame.Computer.gameboard.Carrier.timesHit = 0;
+                      NewGame.Computer.gameboard.Carrier.shipLocation = [];
+                      NewGame.Computer.gameboard.Carrier.shipHitLocation = [];
+                      
+                      NewGame.Computer.gameboard.BattleShip.hasBeenSunk = false;
+                      NewGame.Computer.gameboard.BattleShip.timesHit = 0;
+                      NewGame.Computer.gameboard.BattleShip.shipLocation = [];
+                      NewGame.Computer.gameboard.BattleShip.shipHitLocation = [];
+
+                      NewGame.Computer.gameboard.Cruiser.hasBeenSunk = false;
+                      NewGame.Computer.gameboard.Cruiser.timesHit = 0;
+                      NewGame.Computer.gameboard.Cruiser.shipLocation = [];
+                      NewGame.Computer.gameboard.Cruiser.shipHitLocation = [];
+
+                      NewGame.Computer.gameboard.Submarine.hasBeenSunk = false;
+                      NewGame.Computer.gameboard.Submarine.timesHit = 0;
+                      NewGame.Computer.gameboard.Submarine.shipLocation = [];
+                      NewGame.Computer.gameboard.Submarine.shipHitLocation = [];
+
+                      NewGame.Computer.gameboard.Destroyer.hasBeenSunk = false;
+                      NewGame.Computer.gameboard.Destroyer.timesHit = 0;
+                      NewGame.Computer.gameboard.Destroyer.shipLocation = [];
+                      NewGame.Computer.gameboard.Destroyer.shipHitLocation = [];
+
+                      NewGame.Computer.gameboard.missedAttacks = [];
+                      startNewGameInfo();
+                })
+
             }
 
             if(NewGame.Human.gameboard.checkIfAllSunk()) {
                 changeMessage('All of your ships are sunk !\nGame Over !')
                 NewGame.displayComputerShips()
                 gameEnded = true;
+                
+
+                let restartBtn = document.createElement('button');
+                restartBtn.textContent = "Restart Game";
+                document.querySelector('.buttons').appendChild(restartBtn)
+
+                restartBtn.addEventListener('click', ()=> {
+                    
+                    randomPlaceBtn.style.display = 'block';
+                    startGameBtn.style.display = 'block';
+                    turn.style.display = 'block';
+                    document.querySelector('.ship-options-container').style.display = 'flex';
+                    
+                    NewGame.Human.gameboard.board = [
+                        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                      ];
+
+                      NewGame.Computer.gameboard.board = [
+                        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                      ];
+                      console.log(NewGame.Human.gameboard.board, NewGame.Computer.gameboard.board)
+                      restartBtn.remove()
+                      document.querySelector('.battleship-preview').style.display = 'flex';
+                      document.querySelector('.carrier-preview').style.display = 'flex';
+                      document.querySelector('.submarine-preview').style.display = 'flex';
+                      document.querySelector('.destroyer-preview').style.display = 'flex';
+                      document.querySelector('.cruiser-preview').style.display = 'flex';
+                      NewGame.Human.gameboard.Carrier.hasBeenSunk = false;
+                      NewGame.Human.gameboard.Carrier.timesHit = 0;
+                      NewGame.Human.gameboard.Carrier.shipLocation = [];
+                      NewGame.Human.gameboard.Carrier.shipHitLocation = [];
+                      
+                      NewGame.Human.gameboard.BattleShip.hasBeenSunk = false;
+                      NewGame.Human.gameboard.BattleShip.timesHit = 0;
+                      NewGame.Human.gameboard.BattleShip.shipLocation = [];
+                      NewGame.Human.gameboard.BattleShip.shipHitLocation = [];
+
+                      NewGame.Human.gameboard.Cruiser.hasBeenSunk = false;
+                      NewGame.Human.gameboard.Cruiser.timesHit = 0;
+                      NewGame.Human.gameboard.Cruiser.shipLocation = [];
+                      NewGame.Human.gameboard.Cruiser.shipHitLocation = [];
+
+                      NewGame.Human.gameboard.Submarine.hasBeenSunk = false;
+                      NewGame.Human.gameboard.Submarine.timesHit = 0;
+                      NewGame.Human.gameboard.Submarine.shipLocation = [];
+                      NewGame.Human.gameboard.Submarine.shipHitLocation = [];
+
+                      NewGame.Human.gameboard.Destroyer.hasBeenSunk = false;
+                      NewGame.Human.gameboard.Destroyer.timesHit = 0;
+                      NewGame.Human.gameboard.Destroyer.shipLocation = [];
+                      NewGame.Human.gameboard.Destroyer.shipHitLocation = [];
+
+                      NewGame.Human.gameboard.missedAttacks = [];
+
+                      NewGame.Computer.gameboard.Carrier.hasBeenSunk = false;
+                      NewGame.Computer.gameboard.Carrier.timesHit = 0;
+                      NewGame.Computer.gameboard.Carrier.shipLocation = [];
+                      NewGame.Computer.gameboard.Carrier.shipHitLocation = [];
+                      
+                      NewGame.Computer.gameboard.BattleShip.hasBeenSunk = false;
+                      NewGame.Computer.gameboard.BattleShip.timesHit = 0;
+                      NewGame.Computer.gameboard.BattleShip.shipLocation = [];
+                      NewGame.Computer.gameboard.BattleShip.shipHitLocation = [];
+
+                      NewGame.Computer.gameboard.Cruiser.hasBeenSunk = false;
+                      NewGame.Computer.gameboard.Cruiser.timesHit = 0;
+                      NewGame.Computer.gameboard.Cruiser.shipLocation = [];
+                      NewGame.Computer.gameboard.Cruiser.shipHitLocation = [];
+
+                      NewGame.Computer.gameboard.Submarine.hasBeenSunk = false;
+                      NewGame.Computer.gameboard.Submarine.timesHit = 0;
+                      NewGame.Computer.gameboard.Submarine.shipLocation = [];
+                      NewGame.Computer.gameboard.Submarine.shipHitLocation = [];
+
+                      NewGame.Computer.gameboard.Destroyer.hasBeenSunk = false;
+                      NewGame.Computer.gameboard.Destroyer.timesHit = 0;
+                      NewGame.Computer.gameboard.Destroyer.shipLocation = [];
+                      NewGame.Computer.gameboard.Destroyer.shipHitLocation = [];
+
+                      NewGame.Computer.gameboard.missedAttacks = [];
+                      startNewGameInfo();
+                })
                 
             }
         }
@@ -131,7 +336,9 @@ startGameBtn.addEventListener('click', () => {
     })
 })
 
+}
 
+startNewGameInfo();
 
 
 

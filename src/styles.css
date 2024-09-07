@@ -27,7 +27,7 @@ body {
 }
 
 .game-header {
-    margin: 2rem auto;
+    margin: 1rem auto;
     text-align: center;
     font-size: 3rem;
     font-family: "Press Start 2P";
@@ -68,6 +68,17 @@ body {
 
     margin: 2rem 0;
     width: 100%;
+}
+
+.board-titles {
+    font-size: 1.5rem;
+    font-family: "Press Start 2P";
+}
+.board-and-title {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
 }
 
 .grid1, .grid2 {
@@ -120,6 +131,24 @@ body {
     max-width: 400px;
     text-align: center;
     line-height: 2rem;
+    
+}
+
+.message-anim {
+    animation: 1.5s blink 0s infinite;
+}
+
+@keyframes blink {
+    from {
+        opacity: 100;
+    }
+    50% {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 100;
+    }
 }
 
 .ship-options-container {
@@ -131,7 +160,7 @@ body {
     max-width: 600px;
     padding-top: 1rem;
     width: 400px;
-    height: 400px;
+    max-height: 200px;
     
     
 }
